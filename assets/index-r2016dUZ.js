@@ -1,0 +1,1 @@
+import{u as m,a as c,j as u}from"./index-V9-ivH5b.js";function v({as:a="div",delay:e=0,className:t="",children:i}){const{reducedMotion:n}=m(),{ref:o,inView:s}=c(),r=n?"":s?"animate-reveal":"opacity-0";return u.jsx(a,{ref:o,className:`${r} ${t}`,style:e&&s?{animationDelay:`${e}ms`}:void 0,children:i})}export{v as R};
