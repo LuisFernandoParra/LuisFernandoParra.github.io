@@ -1,0 +1,106 @@
+@import '@fontsource/jacquard-12/latin-400.css';
+@import '@fontsource/dotgothic16/latin-400.css';
+@import 'lenis/dist/lenis.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    @apply bg-bg text-hi antialiased;
+    color-scheme: dark;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply min-h-dvh bg-bg font-mono text-sm leading-relaxed text-hi sm:text-[0.9375rem];
+  }
+
+  ::selection {
+    @apply bg-accent text-bg;
+  }
+
+  :focus-visible {
+    @apply outline outline-2 outline-offset-2 outline-accent;
+  }
+
+  a {
+    @apply underline-offset-4;
+  }
+}
+
+@layer components {
+  /* Respaldo de los retratos: la foto normal teñida de verde. */
+  .portrait-tint {
+    filter: grayscale(1) sepia(1) hue-rotate(78deg) saturate(2.4) brightness(0.92) contrast(1.05);
+  }
+
+  /* Efecto CRT: líneas de barrido, viñeta y marco de pantalla redondeado (sin parpadeo). */
+  .crt-overlay {
+    @apply pointer-events-none fixed inset-0 z-[120] overflow-hidden;
+    border-radius: 18px;
+    box-shadow:
+      0 0 0 40px #020805,
+      inset 0 0 90px rgba(0, 0, 0, 0.55),
+      inset 0 0 0 1px rgba(125, 255, 155, 0.08);
+    background:
+      repeating-linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0) 0,
+        rgba(0, 0, 0, 0) 2px,
+        rgba(0, 0, 0, 0.2) 3px
+      ),
+      radial-gradient(ellipse at center, rgba(0, 0, 0, 0) 62%, rgba(0, 0, 0, 0.4) 100%);
+  }
+
+  /* Banda de luz que recorre la pantalla de arriba abajo. */
+  .crt-overlay::after {
+    content: '';
+    @apply absolute inset-x-0 top-0 h-[22vh];
+    animation: crt-band 9s linear infinite;
+    background: linear-gradient(
+      to bottom,
+      rgba(125, 255, 155, 0),
+      rgba(125, 255, 155, 0.045) 50%,
+      rgba(125, 255, 155, 0)
+    );
+  }
+
+  .desktop-glow {
+    background:
+      radial-gradient(ellipse 70% 55% at 50% 60%, rgba(125, 255, 155, 0.07), transparent 70%),
+      linear-gradient(to bottom, #07140d, #061009);
+  }
+
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: #1f4d34 transparent;
+  }
+}
+
+@keyframes crt-band {
+  from {
+    transform: translateY(-30vh);
+  }
+  to {
+    transform: translateY(130vh);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@media print {
+  .crt-overlay {
+    display: none;
+  }
+}
